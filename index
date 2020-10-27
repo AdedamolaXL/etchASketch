@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+  <title> ETCH-A-SKETCH </title>
+  <style>
+   main {
+      display: grid;
+      height: 500px;
+      width: 500px;
+      background-color: white;
+      padding: 50px;
+      margin: auto;
+   }
+   div {
+      border: 1px dashed red;
+   }
+   button {
+      
+   }
+  </style>
+</head>
+<body>
+ <button id = "reset grid-box">Reset</button>
+ <button id = "random">random</button>
+ <main id ="main"></main>
+ 
+
+ <script>
+    const main = document.querySelector('#main');
+
+    function createGrid(dim = 16) {
+       
+       main.style.gridTemplateColumns = `repeat(${dim}, 1fr)`;
+       main.style.gridTemplateRows = `repeat(${dim}, 1fr)`;
+       
+       for(i = 0; i < (dim * dim); i++) {
+           const div = document.createElement('div');
+           div.className = 'grid-box';
+           main.appendChild(div);
+       };
+       
+    }
+    createGrid();
+
+
+    let backgroundColor = 'black';
+    function color(e) {
+       e.target.style.background = backgroundColor;
+    }
+    let boxes = document.querySelectorAll('.grid-box');
+    boxes.forEach((box) => box.addEventListener('mouseover', color));
+
+    let reset = document.getElementById('reset grid-box');
+    reset.addEventListener('click', function() {
+       while(main.firstChild) {
+          main.removeChild(main.firstChild);
+       }
+       boxes = prompt('How many boxes do you want?');
+       if (boxes > 100 || boxes < 0) {
+          alert ('number of boxes should be within 0 - 100');
+          boxes = 16;
+       }
+       createGrid(boxes);
+       boxes = document.querySelectorAll('.grid-box');
+       boxes.forEach((box) => box.addEventListener('mouseover', color));
+    }
+    )
+
+    function randomColors() {
+       r = Math.floor(Math.random() * 256);
+       g = Math.floor(Math.random() * 256);
+       b = Math.floor(Math.random() * 256);
+    }
+    randomColors();
+
+    function fillInRandomColor() {
+       boxes = document.querySelectorAll('.grid-box');
+       boxes.forEach((box) => box.addEventListener('mouseover', function () {
+       this.style.backgroundColor = `rgb(${r}, ${g}, ${b}`;
+       randomColors();
+    }));
+    }
+
+    let random = document.getElementById('random');
+    random.addEventListener('click', fillInRandomColor);
+    
+    
+
+ </script>
+ </body>
+ </html>
